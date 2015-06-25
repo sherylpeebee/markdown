@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html class="no-js" ng-app="markdownApp">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Ghostly</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+        <!-- Place favicon.ico in the root directory -->
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+        <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+    </head>
+    <body  ng-controller="markdownAppCtrl">
+<style media="screen">
+      @import url(http://fonts.googleapis.com/css?family=Inconsolata);
+html {
+  color: #222;
+  font-size: 1em;
+  line-height: 1.4;
+}
+
+::-moz-selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+::selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 1em 0;
+  padding: 0;
+}
+
+audio,
+canvas,
+iframe,
+img,
+svg,
+video {
+  vertical-align: middle;
+}
+
+
+fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+textarea {
+  resize: vertical;
+}
+
+ html {
+   position: relative;
+   min-height: 100%;
+ }
+ body {
+   margin-bottom: 60px;
+ }
+ .footer {
+   position: absolute;
+   bottom: 0;
+   width: 100%;
+   height: 60px;
+   background-color: #222;
+   border-color: #080808;
+   }
+
+h1#welcome {
+  font-size: 3em;
+  margin: 0.67em 0;
+  position: relative;
+  top: 25px;
+  bottom: 13px;
+  left: -45px;
+}
+
+h1#getting-started {
+font-size: 4em;
+margin: 0.67em 0;
+}
+#left-editor-body{
+font-family: 'Inconsolata', ;
+}
+
+   .editor-body {
+height: 1000px;
+border: 1px solid rgb(232, 231, 231);
+}
+</style>
+
+
+
+
+
+<!-- beginning of javascript content -->
+<script type="text/javascript">
+  angular.module("markdownApp", [])
+  .controller("markdownAppCtrl", function($scope, $http, $sce){
+    $scope.test = 42;
+    var encoded;
+    $scope.encodeMarkdown = function(input){
+      console.log(typeof input);
+      setTimeout(function(){
+      $http.get("/markdown/" + encodeURIComponent(input))
+      .success(function(data, status, headers, config){
+        console.log("data:" + data, "status: " + status);
+        $scope.data = $sce.trustAsHtml(data);
+      });
+    }, 500);
+    }
+
+  });
+
+
+
+</script>
+<!-- continuation of html content -->
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+   <div class="container">
+     <div class="navbar-header">
+       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+         <span class="sr-only">Toggle navigation</span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+         <span class="icon-bar"></span>
+       </button>
+       <a class="navbar-brand" href="#"><i class="fa fa-sliders"></i></a>
+     </div>
+     <div id="navbar" class="collapse navbar-collapse">
+       <ul class="nav navbar-nav">
+         <li class="active"><a href="#"><i class="fa fa-newspaper-o"></i>&nbspContent</a></li>
+         <li><a href="#about"><i class="fa fa-plus"></i>&nbspNew Post</a></li>
+         <li><a href="#contact"><i class="fa fa-cogs"></i>&nbspSettings</a></li>
+       </ul>
+     </div><!--/.nav-collapse -->
+   </div>
+ </nav>
+
+ <div class="container">
+ <h1 id="welcome">Welcome to Ghost</h1>
+ </div>
+ <div class="container-fluid" id="editor-wrapper">
+   <div class="row">
+     <div class="col-xs-6 editor-body" id="left-editor-body">
+       <p>
+         Markdown
+       </p>
+       <br>
+      <textarea ng-model="markdown" ng-keyup="encodeMarkdown(markdown)" name="name" rows="8" cols="40"></textarea>
+       <br>
+       <br>
+       <p>
+         # Getting Started
+       </p>
+       <br>
+       <br>
+       <p>
+         saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.
+       </p>
+     </div>
+     <div class="col-xs-6 editor-body" id="left-editor-body">
+       <p>
+         Preview
+       </p>
+       <br>
+       <div ng-bind-html="data">
+         <!-- {{data}} -->
+       </div>
+       <h1 id="getting-started">Getting Started</h1>
+     </div>
+   </div>
+ </div>
+ {{test}}
+ <footer class="navbar navbar-inverse navbar-fixed-bottom">
+  <div class="container">
+    <i class="fa fa-tags pull-right"></i><span>Getting Started</span>
+    <button type="button" name="button" class="btn btn-primary pull-right">where's my footer?!<span class="caret"></span></button>
+  </div>
+</footer>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.3.min.js"><\/script>')</script>
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script>
+
+    </body>
+</html>
