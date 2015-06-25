@@ -23,17 +23,5 @@ var server = http.createServer(function(req, res) {
       res.end(data);
     });
   }
-  // marked.setOptions({
-  //   renderer: new marked.Renderer(),
-  //   gfm: true,
-  //   tables: true,
-  //   breaks: false,
-  //   pedantic: false,
-  //   sanitize: true,
-  //   smartLists: true,
-  //   smartypants: false
-  // });
-  // console.log(marked("someStr"));
-  // res.end("");
 
-}).listen(8000, 'localhost');
+}).listen(process.env.PORT || 8000);
